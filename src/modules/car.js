@@ -1,9 +1,8 @@
 /**
- * @description a basic object with two fields: Number and Color
+ * @description a basic object with two fields: Registration Number and Color
  * @assumption the registration number for two cars can never be same
- * @author Vinit Shahdeo <vinitshahdeo@gmail.com>
  */
-class Car {
+ class Car {
     constructor (NUMBER, COLOR) {
         this.NUMBER = NUMBER; // unique property of an instance of car class
         this.COLOR = COLOR;

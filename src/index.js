@@ -70,6 +70,7 @@ function processUserCommands (input) {
         case 'create_parking_lot':
             try {
                 totalParkingSlots = parkingLot.createParkingLot(input);
+                console.log('ayush')
                 console.log(chalk.yellow.bold('Created a parking lot with ' + totalParkingSlots + ' slots.'));
             }
             catch (err) {

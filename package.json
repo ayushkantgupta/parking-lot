@@ -24,8 +24,6 @@
     "nodejs",
     "oops"
   ],
-  "author": "Vinit Shahdeo <vinitshahdeo@gmail.com>",
-  "license": "ISC",
   "devDependencies": {
     "async": "3.1.0",
     "chai": "4.2.0",

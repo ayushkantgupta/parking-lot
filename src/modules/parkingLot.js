@@ -2,12 +2,11 @@ var Car = require('./car.js');
 
 /**
  * @description a base class for Parking lot
- * @author Vinit Shahdeo <vinitshahdeo@gmail.com>
  */
 class ParkingLot {
 
 	constructor () {
-        this.MAX_PARKING_SLOTS = 0; // maximum parking slots allowed
+        this.MAXIMUM_PARKING_SLOTS = 0; // maximum parking slots allowed
         this.parkingSlots = new Array(); // array for parking slots
     }
 
@@ -18,15 +17,15 @@ class ParkingLot {
 	 * It throws an error if zero or negative input is provided
 	 */
 	createParkingLot (input) {
-		this.MAX_PARKING_SLOTS = parseInt(input.split(' ')[1]);
-		if (this.MAX_PARKING_SLOTS <= 0) {
+		this.MAXIMUM_PARKING_SLOTS = parseInt(input.split(' ')[1]);
+		if (this.MAXIMUM_PARKING_SLOTS <= 0) {
 			// minimum: 1 slot
-			throw new Error('Minimum one slot is required to create parking slot');
+			throw new Error('Minimum one slot is required to create a parking slot');
 		}
-        for (var i = 0; i < this.MAX_PARKING_SLOTS; i++) {
+        for (var i = 0; i < this.MAXIMUM_PARKING_SLOTS; i++) {
             this.parkingSlots.push(null);
         }
-        return this.MAX_PARKING_SLOTS;
+        return this.MAXIMUM_PARKING_SLOTS;
 	}
 
 	/**
@@ -38,9 +37,9 @@ class ParkingLot {
 	 */
     parkCar (input) {
         var len = this.parkingSlots.length;
-    	if (this.MAX_PARKING_SLOTS > 0) {
+    	if (this.MAXIMUM_PARKING_SLOTS > 0) {
 			var car, carNumber, carColor;
-	    	if (this.findNearestAvailableSlot(this.parkingSlots) == true) {
+	    	if (this.findNearestAvailableSpace(this.parkingSlots) == true) {
 		  		for (var i = 0; i < len; i++) {
 		  			if (this.parkingSlots[i] == null) {
 						carNumber = input.split(' ')[1];
@@ -52,13 +51,13 @@ class ParkingLot {
 							return i;
 						}
 						else {
-							throw new Error('Please provide registration number and color both');
+							throw new Error('Either registration number or color is not provided');
 						}
 		  			}
 		  		}
 			  }
 			else {
-		  		throw new Error('Sorry, parking lot is full');
+		  		throw new Error('Sorry, parking lot is not empty');
 		  	}
           }
           else {
@@ -74,13 +73,13 @@ class ParkingLot {
 	 * slot number is not found
 	 */
     leaveCar (input) {
-    	if (this.MAX_PARKING_SLOTS > 0) {
+    	if (this.MAXIMUM_PARKING_SLOTS > 0) {
 			var index = parseInt(input.split(' ')[1] - 1);
-			if (index >= this.MAX_PARKING_SLOTS) {
-				throw new Error(`Slot number ${index + 1} is not found`);
+			if (index >= this.MAXIMUM_PARKING_SLOTS) {
+				throw new Error(`Slot number ${index + 1} is not there`);
 			}
 			else if (this.parkingSlots[index] === null) {
-				throw new Error(`Slot number ${index + 1} is already free`);
+				throw new Error(`Slot number ${index + 1} is already empty`);
 			}
 		    else if (index > -1 && index <= this.parkingSlots.length) {
 			    this.parkingSlots[index] = null;
@@ -100,9 +99,9 @@ class ParkingLot {
 	 * It throws an error if car is not found.
 	 */
 	leaveCarByCarNumber (input) {
-		if (this.MAX_PARKING_SLOTS > 0) {
+		if (this.MAXIMUM_PARKING_SLOTS > 0) {
 			var carNumber = input.split(' ')[1];
-		    for (var index = 0; index < this.MAX_PARKING_SLOTS; index++) {
+		    for (var index = 0; index < this.MAXIMUM_PARKING_SLOTS; index++) {
 				if (this.parkingSlots[index].NUMBER === carNumber) {
 					this.parkingSlots[index] = null;
 					return index + 1;
@@ -110,7 +109,7 @@ class ParkingLot {
 			}
 		}
 		else {
-			throw new Error('Sorry, car with given registration is not found');
+			throw new Error('Sorry, car with given registration does not exist');
 		}
 	}
 
@@ -119,7 +118,7 @@ class ParkingLot {
 	 */
     getParkingStatus () {
     	var arr = new Array();
-    	if (this.MAX_PARKING_SLOTS > 0) {
+    	if (this.MAXIMUM_PARKING_SLOTS > 0) {
 			arr.push('Slot No. Registration No. Color ');
 
 			// use binary search here
@@ -143,7 +142,7 @@ class ParkingLot {
 	 * It returns null if car is not found
 	 */
     getCarsWithSameColor (input) {
-    	if (this.MAX_PARKING_SLOTS > 0) {
+    	if (this.MAXIMUM_PARKING_SLOTS > 0) {
 	        var sameColoredCarsArray = new Array();
 	        for (var i = 0; i < this.parkingSlots.length; i++) {
 	        	if (this.parkingSlots[i] && this.parkingSlots[i].COLOR.toLowerCase() == input.split(' ')[1].toLowerCase()) {
@@ -164,7 +163,7 @@ class ParkingLot {
 	 * It returns null if cars of given color is not found.
 	 */
     getSlotsWithSameColorCar (input) {
-    	if (this.MAX_PARKING_SLOTS > 0) {
+    	if (this.MAXIMUM_PARKING_SLOTS > 0) {
 	    	var slotsWithSameColorCarArray = new Array();
 	        for (var i = 0; i < this.parkingSlots.length; i++) {
 	        	if (this.parkingSlots[i] && this.parkingSlots[i].COLOR.toLowerCase() == input.split(' ')[1].toLowerCase()) {
@@ -186,7 +185,7 @@ class ParkingLot {
 	 */
     getSlotByCarNumber (input) {
 		// TODO:  What parking lot is empty
-		if (this.MAX_PARKING_SLOTS > 0) {
+		if (this.MAXIMUM_PARKING_SLOTS > 0) {
 	    	var ele = 'Not found';
 	        for (var i = 0; i < this.parkingSlots.length; i++) {
 	        	if (this.parkingSlots[i] && this.parkingSlots[i].NUMBER == input.split(' ')[1]) {
@@ -205,7 +204,7 @@ class ParkingLot {
 	 * It returns `null` if parking lot is not created
 	 */
 	findAllAvailableSlots () {
-		if (this.MAX_PARKING_SLOTS > 0) {
+		if (this.MAXIMUM_PARKING_SLOTS > 0) {
 	    	var availableSlots = new Array();
 	        for (var i = 0; i < this.parkingSlots.length; i++) {
 	        	if (!(this.parkingSlots[i] && this.parkingSlots[i].COLOR && this.parkingSlots[i].NUMBER)) {
@@ -224,7 +223,7 @@ class ParkingLot {
 	 * It returns `null` if parking lot is not created.
 	 */
 	findAllAllocatedSlots () {
-		if (this.MAX_PARKING_SLOTS > 0) {
+		if (this.MAXIMUM_PARKING_SLOTS > 0) {
 	    	var allocatedSlots = new Array();
 	        for (var i = 0; i < this.parkingSlots.length; i++) {
 	        	if (this.parkingSlots[i] && this.parkingSlots[i].COLOR && this.parkingSlots[i].NUMBER) {
@@ -242,7 +241,7 @@ class ParkingLot {
 	 * @description returns the nearest available slot
 	 * used by parkCar() method to find nearest slot
 	 */
-	findNearestAvailableSlot () {
+	findNearestAvailableSpace () {
 		var ele = false;
 		for (var i = 0; i < this.parkingSlots.length; i++) {
 			if (this.parkingSlots[i] == null) {
